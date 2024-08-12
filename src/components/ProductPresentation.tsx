@@ -9,7 +9,7 @@ interface IProductProps  {
 
 
 export const ProductPresentation = ({ product }: IProductProps) => {
-    const { addAmount, decreaseAmount } = useContext(CartContext);
+    const { addAmount, decreaseAmount, remove } = useContext(CartContext);
     return <>
 
         <div>
@@ -24,6 +24,10 @@ export const ProductPresentation = ({ product }: IProductProps) => {
                 addAmount(product.id)
             }}> + </button>
             </div>
+
+            <button onClick={()=>{
+                remove(product.id)
+            }}>Ta bort produkt</button>
             
         </div>
 

@@ -43,7 +43,11 @@ function App() {
     localStorage.setItem("products", JSON.stringify(updatedProducts));
   }
 
-  cartHandler.
+  cartHandler.remove = (id:number) => {
+    const updatedProducts = cartHandler.products.filter((product) => product.id !== id);
+    setCartHandler({...cartHandler, products: updatedProducts});
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  }
 
   return (
     
