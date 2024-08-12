@@ -35,8 +35,9 @@ function App() {
 
   cartHandler.decreaseAmount = (id: number) => {
     const updatedProducts = cartHandler.products.map((product) => {
-      if(product.id !== id) return product;
-      const updatedAmount = product.amount -1 ;
+      if(product.id !== id || product.amount === 1) return product;
+        const updatedAmount = product.amount -1 ;
+     
       return {...product, amount: updatedAmount}
     })
     setCartHandler({...cartHandler, products: updatedProducts});
