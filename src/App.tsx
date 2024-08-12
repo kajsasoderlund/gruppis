@@ -1,16 +1,55 @@
-import { CartContext } from './contexts/CartContext'
+import { CartContext, ICartContext } from './contexts/CartContext'
 import './App.css'
-import { Product } from './models/Product'
 import { useState } from 'react'
+import { Products } from './components/Products';
+import { AddProduct } from './components/AddProduct';
+import { Product } from './models/Product';
 
 function App() {
  
-  const [products,setProducts] = useState<Product[]>([{id: 1, name: "sko", price: 199, amount: 1}]);
   
+  const [cartHandler, setCartHandler] = useState<ICartContext>({
+    products: JSON.parse(localStorage.getItem("products") || "[]"),
+    add: () => {},
+    addAmount: () => {},
+    decreaseAmount: () => {},
+    remove: () => {},
+  });
+  
+
+  cartHandler.add = () => {
+    const updatedProducts = [...cartHandler.products, new Product(Date.now(),"sko",199, 1)];
+    setCartHandler({...cartHandler, products: updatedProducts});
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  }
+
+  cartHandler.addAmount = (id: number) => {
+    const updatedProducts = cartHandler.products.map((product) => {
+      if(product.id !== id) return product;
+      const updatedAmount = product.amount +1 ;
+      return {...product, amount: updatedAmount}
+    })
+    setCartHandler({...cartHandler, products: updatedProducts});
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  }
+
+  cartHandler.decreaseAmount = (id: number) => {
+    const updatedProducts = cartHandler.products.map((product) => {
+      if(product.id !== id) return product;
+      const updatedAmount = product.amount -1 ;
+      return {...product, amount: updatedAmount}
+    })
+    setCartHandler({...cartHandler, products: updatedProducts});
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  }
+
+  cartHandler.
 
   return (
     
-     <CartContext.Provider value={products}>
+     <CartContext.Provider value={cartHandler}>
+      <AddProduct />
+      <Products />
      </CartContext.Provider>
     
  
